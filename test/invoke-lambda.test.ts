@@ -2,41 +2,49 @@ import type { Handler } from 'aws-lambda';
 import { invokeLambda } from '../src';
 
 test('async return', () => {
-  const handler: Handler = async (): Promise<string> => {
+  const handler: Handler<unknown, string> = async (): Promise<string> => {
     return 'foo';
   };
 
   expect.assertions(1);
 
-  return expect(invokeLambda<string>(handler)).resolves.toBe('foo');
+  return expect(invokeLambda<unknown, string>(handler, {})).resolves.toBe(
+    'foo'
+  );
 });
 
 test('callback return', () => {
-  const handler: Handler = (_event, _context, cb): void => {
+  const handler: Handler<unknown, string> = (_event, _context, cb): void => {
     return cb(undefined, 'foo');
   };
 
   expect.assertions(1);
 
-  return expect(invokeLambda<string>(handler)).resolves.toBe('foo');
+  return expect(invokeLambda<unknown, string>(handler, {})).resolves.toBe(
+    'foo'
+  );
 });
 
 test('async error', () => {
-  const handler: Handler = async () => {
+  const handler: Handler<unknown, never> = async () => {
     throw new Error('Lambda error');
   };
 
   expect.assertions(1);
 
-  return expect(invokeLambda(handler)).rejects.toThrow('Lambda error');
+  return expect(invokeLambda<unknown, never>(handler, {})).rejects.toThrow(
+    'Lambda error'
+  );
 });
 
 test('callback error', () => {
-  const handler: Handler = (_event, _context, cb) => {
-    cb(new Error('Lambda error'), undefined);
+  const handler: Handler<unknown, never> = (_event, _context, cb) => {
+    cb(new Error('Lambda error'));
   };
 
   expect.assertions(1);
 
-  return expect(invokeLambda(handler)).rejects.toThrow('Lambda error');
+  return expect(invokeLambda<unknown, void>(handler, {})).rejects.toThrow(
+    'Lambda error'
+  );
 });

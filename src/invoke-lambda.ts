@@ -2,13 +2,14 @@ import { Handler, Context, Callback } from 'aws-lambda';
 import * as uuid from 'uuid';
 import isPromise from 'is-promise';
 
-export const invokeLambda = <T = unknown>(
-  handler: Handler<unknown, T>,
-  event: unknown = {}
-): Promise<T> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const invokeLambda = <TEvent = any, TResult = any>(
+  handler: Handler<TEvent, TResult>,
+  event: TEvent
+): Promise<TResult> => {
   return new Promise((resolve, reject) => {
     try {
-      const callback: Callback<T> = (err, result) => {
+      const callback: Callback<TResult> = (err, result) => {
         if (err) {
           return reject(err);
         }
@@ -17,7 +18,8 @@ export const invokeLambda = <T = unknown>(
 
       const context = createContext({
         fail: (err) => callback(err),
-        succeed: (result: unknown): void => callback(undefined, result as T),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        succeed: (result: any): void => callback(undefined, result as TResult),
         done: (err, result) => callback(err, result),
       });
 
