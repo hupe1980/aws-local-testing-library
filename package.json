@@ -2,6 +2,7 @@
   "name": "aws-local-testing-library",
   "description": "Testing library for local aws development",
   "version": "0.0.3",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/hupe1980/aws-local-testing-library.git"
@@ -12,7 +13,9 @@
   "homepage": "https://github.com/hupe1980/aws-local-testing-library#readme",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "license": "MIT",
+  "files": [
+    "lib"
+  ],
   "engines": {
     "node": ">=10"
   },
