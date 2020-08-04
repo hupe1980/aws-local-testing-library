@@ -1,7 +1,7 @@
 {
   "name": "aws-local-testing-library",
   "description": "Testing library for local aws development",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/hupe1980/aws-local-testing-library.git"
@@ -21,7 +21,7 @@
     "watch": "rimraf lib && tsc -w",
     "test": "jest",
     "lint": "eslint '*/**/*.{ts,tsx}' --report-unused-disable-directives",
-    "prepare": "npm run build && npm run test"
+    "prepare": "yarn build && yarn test"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.59",
