@@ -2,23 +2,23 @@ import type { Handler } from 'aws-lambda';
 import { invokeLambda } from '../src';
 
 test('async return', () => {
-  const handler: Handler = async () => {
+  const handler: Handler = async (): Promise<string> => {
     return 'foo';
   };
 
   expect.assertions(1);
 
-  return expect(invokeLambda(handler)).resolves.toBe('foo');
+  return expect(invokeLambda<string>(handler)).resolves.toBe('foo');
 });
 
 test('callback return', () => {
-  const handler: Handler = (_event, _context, cb) => {
+  const handler: Handler = (_event, _context, cb): void => {
     return cb(undefined, 'foo');
   };
 
   expect.assertions(1);
 
-  return expect(invokeLambda(handler)).resolves.toBe('foo');
+  return expect(invokeLambda<string>(handler)).resolves.toBe('foo');
 });
 
 test('async error', () => {
