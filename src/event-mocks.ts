@@ -26,8 +26,8 @@ export const events = {
 
 export const createEvent = <T extends keyof typeof events>(
   eventType: T,
-  body: PartialDeep<typeof events[T]>
+  body?: PartialDeep<typeof events[T]>
 ): typeof events[T] => {
   const event = events[eventType];
-  return merge(cloneDeep(event), body);
+  return body ? merge(cloneDeep(event), body) : event;
 };
